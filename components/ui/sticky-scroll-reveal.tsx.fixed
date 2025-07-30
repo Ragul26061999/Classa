@@ -1,0 +1,149 @@
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+interface Feature {
+  icon: string;
+  text: string;
+  animation?: string;
+}
+
+interface ContentItem {
+  title: string;
+  description?: string;
+  subtitle?: string;
+  cardColor?: string;
+  iconColor?: string;
+  features?: Feature[];
+  content?: React.ReactNode;
+}
+
+interface StickyScrollProps {
+  content: ContentItem[];
+  contentClassName?: string;
+}
+
+export const StickyScroll = ({
+  content,
+  contentClassName,
+}: StickyScrollProps) => {
+  const [activeCard, setActiveCard] = React.useState(0);
+  const ref = useRef<any>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const cardLength = content.length;
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const cardsBreakpoints = content.map((_, index) => index / cardLength);
+    const closestBreakpointIndex = cardsBreakpoints.reduce(
+      (acc, breakpoint, index) => {
+        const distance = Math.abs(latest - breakpoint);
+        if (distance < Math.abs(latest - cardsBreakpoints[acc])) {
+          return index;
+        }
+        return acc;
+      },
+      0,
+    );
+    setActiveCard(closestBreakpointIndex);
+  });
+
+  // Background colors are now defined in the content array for each card
+  const [backgroundGradient, setBackgroundGradient] = useState(
+    `linear-gradient(45deg, ${content[0].cardColor || 'blue'}, ${content[0].cardColor || 'blue'})`,
+  );
+
+  useEffect(() => {
+    setBackgroundGradient(`linear-gradient(45deg, ${content[activeCard].cardColor || 'blue'}, ${content[activeCard].cardColor || 'blue'})`);
+  }, [activeCard]);
+
+  return (
+    <div className="relative w-full min-h-screen flex">
+      {/* Fixed Image Container */}
+      <div className="sticky top-0 h-screen w-1/2 flex items-center justify-center p-10">
+        <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl border border-gray-100 bg-white">
+          {content[activeCard]?.content || (
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
+              <span className="text-gray-400 text-lg">Preview Content</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Scrolling Content */}
+      <div 
+        className="w-1/2 overflow-y-auto"
+        ref={ref}
+      >
+        <div className="py-20 px-4 md:px-10">
+          {content.map((item, index) => (
+            <div key={item.title + index} className="min-h-screen w-full flex items-center justify-center py-16 px-4 md:px-8">
+              <motion.div
+                className={`min-h-screen flex items-center justify-center py-20 px-4 md:px-8 bg-gradient-to-br ${item.cardColor || 'from-blue-50 to-blue-100'}`}
+                style={{
+                  transition: 'all 0.5s ease'
+                }}
+              >
+                <div className="max-w-2xl w-full space-y-8">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px 0px 0px 0px" }}
+                    transition={{ duration: 0.5 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">
+                        {item.title}
+                      </h2>
+                      {item.description && (
+                        <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {item.features && (
+                      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                        {item.features.map((feature, i) => (
+                          <motion.div 
+                            key={i}
+                            className={`flex items-start gap-4 p-6 rounded-2xl bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-lg border border-white/20 transition-all duration-300 ${feature.animation || ''}`}
+                            whileHover={{ 
+                              y: -4,
+                              boxShadow: '0 15px 30px -10px rgba(0, 0, 0, 0.1)'
+                            }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px 0px 0px 0px" }}
+                            transition={{ 
+                              delay: 0.1 * (i + 1), 
+                              duration: 0.5,
+                              type: 'spring',
+                              stiffness: 100
+                            }}
+                          >
+                            <span className={`text-3xl flex-shrink-0 ${item.iconColor || 'text-blue-500'} transition-transform duration-300`}>
+                              {feature.icon}
+                            </span>
+                            <p className="text-slate-700 text-sm md:text-base">
+                              {feature.text}
+                            </p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
