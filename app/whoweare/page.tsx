@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, AnimatePresence, Variants } from 'framer-motion';
 import WhatWeDo from '../whatwedo/page';
 import Teams from '../teams/page';
 import ContactUs from '../contactus/page';
@@ -127,9 +127,17 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 }, // More pronounced initial state for items
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: "easeOut" } } // Smoother ease and scale
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1, 
+    transition: { 
+      duration: 0.8, 
+      ease: [0.16, 1, 0.3, 1]
+    } 
+  }
 };
 
 export default function App() {
