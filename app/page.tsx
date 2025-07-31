@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { Analytics } from "@vercel/analytics/next"
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, useAnimation, useScroll, useTransform } from 'framer-motion';
