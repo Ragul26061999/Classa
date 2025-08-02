@@ -51,7 +51,7 @@
 body {
   background: linear-gradient(120deg, #fff 0%, #e0f0ff 100%);
   color: var(--foreground);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', 'Lato', 'Roboto', sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
