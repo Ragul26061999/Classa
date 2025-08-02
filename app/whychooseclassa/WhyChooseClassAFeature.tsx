@@ -1,24 +1,25 @@
-import React from "react";
+import React from 'react';
+import { FaCheckCircle } from 'react-icons/fa';
 
 interface FeatureProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  blobClass?: string;
 }
 
-const Feature: React.FC<FeatureProps> = ({ icon, title, description, blobClass }) => (
-  <div className="relative flex items-center mb-8 group">
-    {/* Blob background */}
-    <div className={`absolute -left-6 -top-4 w-20 h-20 bg-gradient-to-tr ${blobClass ? blobClass : 'from-blue-300 via-purple-200 to-pink-200'} rounded-full blur-lg opacity-60 group-hover:scale-110 transition-transform duration-300`}></div>
-    <div className="z-10 flex-shrink-0 w-12 h-12 flex items-center justify-center text-3xl bg-white/80 rounded-full shadow-lg mr-6 border border-gray-200">
-      {icon}
+const WhyChooseClassAFeature: React.FC<FeatureProps> = ({ icon, title, description }) => {
+  return (
+    <div className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div className="text-4xl mb-4 text-blue-500">
+        {icon}
+      </div>
+      <h3 className="text-xl font-semibold mb-2 text-center">{title}</h3>
+      <p className="text-gray-600 text-center">{description}</p>
+      <div className="mt-4 text-green-500">
+        <FaCheckCircle className="text-xl" />
+      </div>
     </div>
-    <div className="z-10">
-      <div className="font-bold text-lg text-gray-800 mb-1">{title}</div>
-      <div className="text-gray-600 text-base leading-snug">{description}</div>
-    </div>
-  </div>
-);
+  );
+};
 
-export default Feature;
+export default WhyChooseClassAFeature;

@@ -31,7 +31,6 @@ import {
 } from 'react-icons/fa';
 
 import { useInView } from 'react-intersection-observer';
-import Feature from './whychooseclassa/WhyChooseClassAFeature';
 import Header from './components/Header';
 
 // Import components with SSR disabled to avoid hydration issues

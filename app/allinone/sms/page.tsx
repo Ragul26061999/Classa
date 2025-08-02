@@ -17,7 +17,7 @@ export default function SchoolManagementSystem() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0A1A2F] relative overflow-hidden py-4 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#0A1A2F] relative overflow-hidden pt-17 px-4 sm:px-6 lg:px-8">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-300/20 rounded-full blur-3xl animate-pulse"></div>

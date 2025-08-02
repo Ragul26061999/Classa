@@ -133,7 +133,7 @@ export default function AssessmentManagementSystem() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A1A2F] -mb-20 -mt-5 pt-6 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#0A1A2F] -mb-0 -mt-0 pt-17 pb-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Side - AMS Overview */}
